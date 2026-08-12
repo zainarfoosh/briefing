@@ -1,0 +1,6 @@
+beautifulsoup4>=4.12
+
+# Only the provider you actually use needs to be installed; both are listed so
+# switching LLM_PROVIDER doesn't require touching this file.
+anthropic>=0.70
+google-genai>=1.0

@@ -1,0 +1,60 @@
+name: Daily biopharma brief
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 10:30 UTC — 6:30am EDT / 5:30am EST. GitHub's cron is UTC and does not
+    # follow daylight saving, so this drifts an hour in winter.
+    - cron: "30 10 * * *"
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build the brief
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GMAIL_FOLDER: ${{ vars.GMAIL_FOLDER }}
+          # Set the LLM_PROVIDER variable to "gemini" to switch providers; only
+          # that provider's key needs to exist.
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+        run: python run.py
+
+      - name: Commit the brief
+        run: |
+          if ! git diff --quiet feed.json digest.md state.json; then
+            git config user.name  "biopharma-brief"
+            git config user.email "actions@github.com"
+            git add feed.json digest.md state.json
+            git commit -m "Brief for $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      # A silently broken morning is the main way this quietly dies.
+      - name: Report failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "Brief failed on $(date -u +%Y-%m-%d)" \
+            --body "The daily run failed. Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          cc @${{ github.repository_owner }}"
