@@ -131,41 +131,43 @@ moving is explain-versus-assume, since the right level shifts as the fluency bui
 The provider is a switch, not a rewrite — the prompt and schema are shared, so only the
 writer changes.
 
-| | Default | Free option |
-| --- | --- | --- |
-| Provider | `anthropic` | `gemini` |
-| Model | `claude-sonnet-5` | `gemini-2.5-flash` |
-| Cost | ~$5–8/month | $0 |
-| Key | `ANTHROPIC_API_KEY` | `GEMINI_API_KEY` ([aistudio.google.com/apikey](https://aistudio.google.com/apikey)) |
+| | Default | | |
+| --- | --- | --- | --- |
+| Provider | `cohere` | `anthropic` | `gemini` |
+| Model | `command-a-plus-05-2026` | `claude-sonnet-5` | `gemini-2.5-flash` |
+| Cost | $0 (trial key) | ~$5–8/month | $0 |
+| Key | `COHERE_API_KEY` | `ANTHROPIC_API_KEY` | `GEMINI_API_KEY` |
+| Get one | [dashboard.cohere.com](https://dashboard.cohere.com/api-keys) | [console.anthropic.com](https://console.anthropic.com) | [aistudio.google.com](https://aistudio.google.com/apikey) |
 
-To switch, set the `LLM_PROVIDER` Actions **variable** to `gemini` and add the
-`GEMINI_API_KEY` **secret**. `claude-opus-5` and `GEMINI_MODEL` are one-line overrides in
-either direction.
+Switch by setting the `LLM_PROVIDER` Actions **variable**; only that provider's key needs
+to exist. `COHERE_MODEL`, `GEMINI_MODEL`, and the `ANTHROPIC_MODEL` constant are one-line
+overrides in either direction.
 
-Rate limits are not the deciding factor. This job makes **one request per day**, which
-sits far inside even the tightest free tier — Google's free tier is roughly 10 requests
-per minute and 250 per day for Flash. Gemini 2.5 Pro is the one to watch: it is capped
-near 50 requests/day free and some sources report the free tier covering only Flash and
-Flash-Lite, so don't build around Pro being free.
+**Rate limits are not the deciding factor.** This job makes one request per day. A Cohere
+trial key allows 1,000 calls/month and 20 requests/minute on chat models — roughly thirty
+times the headroom this needs. Two Cohere-specific notes: trial keys are documented as not
+for production or commercial use (a personal morning brief is neither, but it's their
+term, not mine), and if a trial key rejects `command-a-plus-05-2026`, fall back to
+`command-a-03-2025` — which has a larger 256k context but caps output at 8k, right on top
+of `MAX_TOKENS`.
 
-Two things that genuinely differ:
+**What actually differs is quality on the part that matters most.** Nearly all the work
+here is editorial judgment — deciding which four of twenty stories earn airtime, and
+writing a real "so what" for each. That's exactly where model strength shows, and it's
+insidious when it's missing: a weaker ranking still produces a fluent, confident brief,
+just one that quietly spends your morning on the wrong stories. You get no signal that it
+happened.
 
-- **Quality, on the part that matters most.** Nearly all the work here is editorial
-  judgment — deciding which four of twenty stories earn airtime, and writing a real "so
-  what" for each. That's exactly where model strength shows, and it's harder to notice
-  when it's missing: a weaker ranking still produces a fluent, plausible brief, just one
-  that quietly wastes your morning on the wrong stories.
-- **Data handling.** Google's free tier uses submitted data to improve their products;
-  the paid tier does not. The input here is newsletters you didn't write, so the exposure
-  is mild, but the brief does reflect what you read.
-
-Don't take my word on the quality gap — run both on the same morning and read them side
-by side:
+So don't take my word on it — run them on the same morning and read side by side:
 
 ```bash
+python run.py --provider cohere    --dry-run
 python run.py --provider anthropic --dry-run
-python run.py --provider gemini    --dry-run
 ```
 
-`--dry-run` writes nothing, so you can do this as often as you like. If Flash holds up on
-your actual newsletters, take the free one.
+`--dry-run` writes nothing, so compare as often as you like.
+
+One more consideration if you're weighing the free tiers: Google's free tier uses
+submitted data to improve their products (the paid tier does not). Check Cohere's current
+terms for the equivalent. The input is newsletters you didn't write, so the exposure is
+mild — but the brief does reflect what you read.

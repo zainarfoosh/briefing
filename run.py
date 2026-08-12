@@ -196,7 +196,7 @@ def main() -> None:
     parser.add_argument("--limit", type=int, help="Only inspect the newest N messages.")
     parser.add_argument(
         "--provider",
-        choices=["anthropic", "gemini"],
+        choices=["cohere", "anthropic", "gemini"],
         help="Override LLM_PROVIDER. Handy for running both on the same morning.",
     )
     args = parser.parse_args()

@@ -29,9 +29,11 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           GMAIL_FOLDER: ${{ vars.GMAIL_FOLDER }}
-          # Set the LLM_PROVIDER variable to "gemini" to switch providers; only
-          # that provider's key needs to exist.
+          # Defaults to cohere. Set the LLM_PROVIDER variable to "anthropic" or
+          # "gemini" to switch; only that provider's key needs to exist.
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER }}
+          COHERE_API_KEY: ${{ secrets.COHERE_API_KEY }}
+          COHERE_MODEL: ${{ vars.COHERE_MODEL }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}

@@ -16,13 +16,17 @@ import os
 import re
 import sys
 
-# Which LLM writes the brief. "anthropic" or "gemini"; override with LLM_PROVIDER
-# or run.py --provider. The prompt and schema below are shared by both, so the
-# only thing that changes is who writes it.
-DEFAULT_PROVIDER = "anthropic"
+# Which LLM writes the brief: "cohere", "anthropic", or "gemini". Override with
+# LLM_PROVIDER or run.py --provider. The prompt and schema below are shared by all
+# three, so the only thing that changes is who writes it.
+DEFAULT_PROVIDER = "cohere"
 
 ANTHROPIC_MODEL = "claude-sonnet-5"
 GEMINI_MODEL = "gemini-2.5-flash"  # the capable end of Google's free tier
+# Cohere's most capable chat model: 128k context, 64k max output. If a trial key
+# rejects it, command-a-03-2025 is the established fallback — but note that one
+# caps output at 8k, which is right on top of MAX_TOKENS below.
+COHERE_MODEL = "command-a-plus-05-2026"
 
 # Generous, because on both providers this budget covers thinking *and* response
 # text — a tight budget truncates the script mid-sentence.
@@ -204,7 +208,8 @@ def build_prompt(emails) -> str:
 
 
 def _strip_unsupported(schema: dict) -> dict:
-    """Gemini implements a subset of JSON Schema and rejects additionalProperties."""
+    """Gemini and Cohere implement subsets of JSON Schema that reject
+    additionalProperties. Anthropic requires it, so this only runs for the others."""
     cleaned = copy.deepcopy(schema)
 
     def walk(node):
@@ -300,16 +305,71 @@ def _summarize_gemini(prompt: str) -> dict:
     return brief
 
 
+def _summarize_cohere(prompt: str) -> dict:
+    import cohere
+
+    # The SDK's own env var is CO_API_KEY; accept COHERE_API_KEY too so the name
+    # matches the other providers, and pass it explicitly either way.
+    api_key = os.environ.get("COHERE_API_KEY") or os.environ.get("CO_API_KEY")
+    if not api_key:
+        sys.exit(
+            "COHERE_API_KEY must be set in the environment. "
+            "Create one at https://dashboard.cohere.com/api-keys"
+        )
+
+    # `or` not `get(default)`: an unset GitHub Actions variable arrives as "".
+    model = os.environ.get("COHERE_MODEL") or COHERE_MODEL
+    client = cohere.ClientV2(api_key=api_key)
+    response = client.chat(
+        model=model,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": prompt},
+        ],
+        # v2 spells this `json_schema`; `schema` is the v1 shape and is ignored here.
+        response_format={
+            "type": "json_object",
+            "json_schema": _strip_unsupported(BRIEF_SCHEMA),
+        },
+        max_tokens=MAX_TOKENS,
+    )
+
+    finish = getattr(response, "finish_reason", None)
+    if finish and str(finish).upper().endswith("MAX_TOKENS"):
+        sys.exit(
+            "Cohere hit max_tokens before finishing. Raise MAX_TOKENS in "
+            "summarize.py, or check the model's output ceiling — command-a-03-2025 "
+            "caps at 8k."
+        )
+
+    blocks = getattr(response.message, "content", None) or []
+    text = "".join(b.text for b in blocks if getattr(b, "type", "text") == "text")
+    if not text:
+        sys.exit(f"Cohere returned no text (finish_reason={finish}).")
+
+    brief = json.loads(text)
+    tokens = getattr(getattr(response, "usage", None), "tokens", None)
+    brief["usage"] = {
+        "model": model,
+        "input_tokens": getattr(tokens, "input_tokens", None),
+        "output_tokens": getattr(tokens, "output_tokens", None),
+    }
+    return brief
+
+
 def summarize(emails, provider: str | None = None) -> dict:
     """Write the brief with whichever provider is configured."""
     provider = (provider or os.environ.get("LLM_PROVIDER") or DEFAULT_PROVIDER).lower()
     prompt = build_prompt(emails)
 
-    if provider == "anthropic":
-        return _summarize_anthropic(prompt)
-    if provider == "gemini":
-        return _summarize_gemini(prompt)
-    sys.exit(f"Unknown provider {provider!r}. Use 'anthropic' or 'gemini'.")
+    writers = {
+        "anthropic": _summarize_anthropic,
+        "gemini": _summarize_gemini,
+        "cohere": _summarize_cohere,
+    }
+    if provider not in writers:
+        sys.exit(f"Unknown provider {provider!r}. Use one of: {', '.join(writers)}.")
+    return writers[provider](prompt)
 
 
 def to_plain_text(script: str) -> str:
