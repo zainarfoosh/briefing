@@ -28,10 +28,16 @@ GEMINI_MODEL = "gemini-2.5-flash"  # the capable end of Google's free tier
 # caps output at 8k, which is right on top of MAX_TOKENS below.
 COHERE_MODEL = "command-a-plus-05-2026"
 
-# Generous, because on both providers this budget covers thinking *and* response
-# text — a tight budget truncates the script mid-sentence.
-MAX_TOKENS = 8000
+# Generous, because on every provider here this budget covers thinking *and*
+# response text. The brief itself is only ~2k tokens; the rest is headroom so a
+# reasoning model can't spend the whole budget before it starts writing.
+MAX_TOKENS = 16000
 EFFORT = "medium"
+
+# Cohere's command-a-plus is a reasoning model with thinking enabled by default
+# and no implicit cap, so it will happily consume the entire max_tokens budget
+# thinking and emit nothing. Bounding it explicitly guarantees room to answer.
+COHERE_THINKING_BUDGET = 4000
 
 WORDS_PER_MINUTE = 155
 
@@ -320,7 +326,8 @@ def _summarize_cohere(prompt: str) -> dict:
     # `or` not `get(default)`: an unset GitHub Actions variable arrives as "".
     model = os.environ.get("COHERE_MODEL") or COHERE_MODEL
     client = cohere.ClientV2(api_key=api_key)
-    response = client.chat(
+
+    kwargs = dict(
         model=model,
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
@@ -334,12 +341,25 @@ def _summarize_cohere(prompt: str) -> dict:
         max_tokens=MAX_TOKENS,
     )
 
+    try:
+        response = client.chat(
+            **kwargs,
+            thinking={"type": "enabled", "token_budget": COHERE_THINKING_BUDGET},
+        )
+    except Exception as exc:
+        # Non-reasoning models (command-a-03-2025, command-r-plus) reject the
+        # parameter outright. Retry without it rather than failing the morning.
+        if "thinking" not in str(exc).lower():
+            raise
+        response = client.chat(**kwargs)
+
     finish = getattr(response, "finish_reason", None)
     if finish and str(finish).upper().endswith("MAX_TOKENS"):
         sys.exit(
-            "Cohere hit max_tokens before finishing. Raise MAX_TOKENS in "
-            "summarize.py, or check the model's output ceiling — command-a-03-2025 "
-            "caps at 8k."
+            f"Cohere hit max_tokens ({MAX_TOKENS}) before finishing on {model}. "
+            "Either lower COHERE_THINKING_BUDGET so more of the budget is left for "
+            "the answer, or check the model's output ceiling — command-a-03-2025 "
+            "caps at 8k regardless of what you ask for."
         )
 
     blocks = getattr(response.message, "content", None) or []
