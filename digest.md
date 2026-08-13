@@ -1,50 +1,44 @@
 # Biopharma brief — 2026-08-13
 
-**Definium's LSD clears phase three anxiety trial; Boulevard Bio launches with $65M; Aureka raises $100M for AI drug discovery; Neurocrine's Vykat XR faces safety scrutiny**
+**Definium’s LSD clears phase three, safety concerns rise for Neurocrine’s Prader-Willi drug, and Boulevard Bio secures funding for immunology pipeline**
 
-5 newsletters · 307 words · about 1m59s aloud
+5 newsletters · 224 words · about 1m27s aloud
 
 ## Stories
 
-### [Definium's LSD clears phase three anxiety trial](https://endpoints.news/definiums-lsd-drug-clears-bar-in-first-of-two-phase-3-trials-in-anxiety-disorder/)
+### [Definium’s LSD clears first phase three in anxiety](https://endpoints.news/definiums-lsd-drug-clears-bar-in-first-of-two-phase-3-trials-in-anxiety-disorder/)
 
-Milestone triggers potential partnership payments and validates psychedelics as a commercial therapeutic class
+Oral LSD met primary endpoint in generalized anxiety disorder, a first for the modality and could unlock partnership deals and valuation upside for the company and its investors.
 
-*Endpoints Early Edition*
+*Endpoints | Early Edition*
 
-### [Boulevard Bio launches with $65M and IgAN focus](https://marketing.statnews.com/e3t/Ctc/LV+113/cp47z04/VWfvMf10ZYSCW53MDMW8btydKW4HyYrL5SDb-nN2z6H3d3prCCW8wLKSR6lZ3mYW1l-jtw1VbZV5W7JDZB818tqnnW529bnW7GL1-LW27367R2yqcvjW5p9XL64-0WdlVnhfKk45BwdyW5KlHww1dwBS-W4qVs6W5TvBJ-W7QR6vF94fR6MW4rpyTs322gW5W3GKPbb3xzg8_W6m-9c7495FLrW5FfjPL6T00GDN2pNmQF4nCDvW71GgSM7hMpp9W4N54Nm6SkFxrW17L3t-10JkkJN7kKQ_SDbwzkV4lZh79d30pGW7T1tM54Qlyc7W70qJ2M6Pw2HCW1WY9TP5L1m_3N37SC3M68tx-W78dWHr3XdctqW2WYH-W5Ml9SxN81X2QZX5Wg0N3YyF_0S9-kjN59Y79YNKj-9f7yXH4j04)
+### [Neurocrine’s Prader‑Willi drug safety flagged by experts](https://marketing.statnews.com/e3t/Ctc/LV+113/cp47z04/n6lZ3mcN91M8vsJWbxyW19Z31Z542y_yW6TgGLL6-FzZcW5073CW4rwNn1W48PVK-8fp3MRW85MBTK6zry2DW22jJlk6XdxS3VbQgLf2F7q1VW5NmRHG4LrJ_PN1zH6h9P6MN3W2xn73w5NQ530W6tgf6Q4Lk3RtW2DqhBX42jjj_W3DvYZ_8lzZ-LW3SsfGv2ZnnSyW6FYzbQ8GSvppW6zldX26N_FpWW7BwvXq1NmyBKW6CynxH2Jz4jFW22dN666cvYVLW6SNRKJ3sbLNNMBlL6qnhhlHW4jfS154BMt8-F15jCLYtGF7W1MQpsj36vsVSW1XtL5M8QskKxW20dNrj7ZCpXLN1bClXCz2CPTf2h-WNb04)
 
-Strong scientific founder and rare disease target create high pricing potential and attract follow-on capital
+Seven deaths reported in Vykat XR patients triggered an expert letter urging tighter monitoring; if the FDA acts, the drug’s commercial trajectory could stall, affecting Neurocrine’s valuation and partner confidence.
 
-*STAT The Readout*
+*STAT | The Readout*
 
-### [Aureka raises $100M Series B for AI drug discovery platform](https://www.aurekabio.com/news/61) ⭐
+### [Boulevard Bio raises sixty‑five million dollars for immunology pipeline](https://marketing.statnews.com/e3t/Ctc/LV+113/cp47z04/n6lZ3ptW6SbYj03QqMbHVJgZFc1k_g0hV16w662NgLslW3gzY2H6h8bvjV7ycFB61XGvMW5KRZwk8BcJWlW8wg1fW7gwdkBN2lczll1x-XnW4VzdjD7B4KP9V_rpZD5CVYQJW1R63qG27n2B2W40bC428B-nfSW1M6f969lnHhPW7d2yhn4P3G4RW5fZ3_37d5VmbW5lJTLf6RS9jzVDv7Ng3zKC1xW449FpG24lhMCW5zzJRd3WJkmmW7cD_jX1hCJCCW63pJTj3jrp7dW29-ybP1tvPtFW59JN2h3PwCFGW1hdV238hJ1mrN7qYBrqWq6BtW3q19zs74p6_RW7RH_7j5tjHrPW1kC3hd7KDzVPf7HtdgH04)
 
-Large bet on AI-driven discovery could reshape pharma partnerships and accelerate early-stage pipelines
+Georg Schett’s new antibody company secured funding and a deal to acquire Vera’s IgAN program, positioning it to compete with established autoimmune players and signaling investor confidence in its platform.
 
-*Endpoints Main Edition*
+*STAT | The Readout*
 
-### [Neurocrine's Vykat XR safety concerns emerge](https://marketing.statnews.com/e3t/Ctc/LV+113/cp47z04/VWfvMf10ZYSCW53MDMW8btydKW4HyYrL5SDb-nN2z6H3d3prCCW8wLKSR6lZ3mcN91M8vsJWbxyW19Z31Z542y_yW6TgGLL6-FzZcW5073CW4rwNn1W48PVK-8fp3MRW85MBTK6zry2DW22jJlk6XdxS3VbQgLf2F7q1VW5NmRHG4LrJ_PN1zH6h9P6MN3W2xn73w5NQ530W6tgf6Q4Lk3RtW2DqhBX42jjj_W3DvYZ_8lzZ-LW3SsfGv2ZnnSyW6FYzbQ8GSvppW6zldX26N_FpWW7BwvXq1NmyBKW6CynxH2Jz4jFW22dN666cvYVLW6SNRKJ3sbLNNMBlL6qnhhlHW4jfS154BMt8-F15jCLYtGF7W1MQpsj36vsVSW1XtL5M8QskKxW20dNrj7ZCpXLN1bClXCz2CPTf2h-WNb04)
+### [Second child death reported in Chinese CRISPR trial](https://marketing.statnews.com/e3t/Ctc/LV+113/cp47z04/n6lZ3n-W6cT65B7fVF6nW13wZkb2f4QxyW7tJwvv8ddx-yW43lw_v2dXCq9W77JcPk5b7tcQW6TsY667HJSFnW62VkS11R7hSrW4rNKF379w9xZW81YylM287s0yW39PqgP6FyWHMW61_65f40lcFVW5krp0p8KL_MLW8kY7xh6ZQjyMW4tWgLW1SBRHYVll8ds1jQt-_W7-G_kp8VFwv-VqBJf_1k7MN_W1DhbkC7nMcKKW5DDvw17wtM46W51nnsZ3ct6tkW1Zr6w47lkwSrVdF9_64zHq2BW3tcZjP6rBRx2W5JySrV2Gbv2wW8h44DC1hSmHrW8jYdFq22TxtdW4KxKy-6wS-jTW7rLzcv4GWzPSVbP5kb3LTstbW8wTdCL5w8Hhlf2DlgrT04)
 
-Seven reported deaths raise regulatory risk and could delay launch of a rare disease treatment
+A pediatric gene‑editing study in muscular dystrophy saw a second fatality, intensifying regulatory scrutiny and potentially prompting a halt to similar trials, which could slow the entire gene‑editing sector’s momentum.
 
-*STAT The Readout*
+*STAT | Daily Recap*
+
+### [Aureka raises one‑hundred‑million dollars for biological world model](https://www.aurekabio.com/news/61)
+
+The series B funding positions Aureka to build a platform that could accelerate target validation across modalities, potentially reshaping how early‑stage biotechs pursue drug discovery and attract capital.
+
+*Endpoints | Main Edition*
 
 ## Script
 
-Good morning, Zain. Today's brief is split between late-stage trial results, big funding rounds, and a safety warning that could reshape a rare disease market.
-
-Definium Therapeutics reported that its oral LSD candidate met the primary endpoint in the first of two phase three trials for generalized anxiety disorder. The result is a milestone that could trigger partnership payments and validate psychedelics as a commercial therapeutic class, positioning Definium for a potential deal or a public offering.
-
-Boulevard Bio debuted this morning with sixty-five million dollars in new capital and a focus on an antibody therapy for immunoglobulin A nephropathy sourced from Vera. Founder Georg Schett brings a reputation for translating CAR-T breakthroughs into autoimmune treatments, and the rare disease market offers high pricing power, making Boulevard an attractive candidate for follow-on funding.
-
-Aureka Biotechnologies closed a one hundred million dollar Series B round to build a biological world model that aims to predict drug candidates before they enter the lab. The funding reflects investor confidence in AI-driven discovery platforms that could reshape how pharma partners with early-stage biotechs, offering Aureka a path to milestone-heavy collaborations.
-
-Neurocrine's Vykat XR for Prader-Willi syndrome has been linked to seven reported deaths in the FDA's adverse event system, prompting a letter from expert clinicians. The safety concern could delay the drug's launch, increase regulatory oversight, and erode confidence in Neurocrine's commercial prospects for a rare disease treatment.
-
-Worth reading deeper: Aureka's Series B story in Endpoints Main Edition details how the company plans to use the new capital to expand its biological world model, train machine learning models on real clinical data, and pursue partnerships with large pharma that could accelerate drug pipelines. Understanding the model's scope helps gauge whether the investment is a bet on a platform or a specific pipeline asset.
-
-That's your rundown. Have a good one.
+Good morning, Zain. Today's biopharma news is split between a late-stage success for a psychedelic therapy, a safety warning on a rare disease drug, and a new immunology player raising capital. Definium Therapeutics reported its oral LSD candidate met the primary endpoint in the first of two phase three trials for generalized anxiety disorder, a milestone that could validate the company's platform and attract partnership interest. Meanwhile, a panel of experts flagged potential safety issues with Neurocrine's Vykat XR for Prader-Willi syndrome after seven reported deaths, prompting a call for tighter monitoring and possibly a regulatory review. In funding news, Boulevard Bio closed a sixty-five-million-dollar round to advance antibody candidates, including a deal to acquire Vera's IgAN program, positioning the startup to compete in autoimmune disease space. Also notable is Aureka Biotechnologies' one-hundred-million-dollar series B to build a biological world model for drug discovery, a move that could reshape how small biotechs approach target validation. The day also brings a second child death in a Chinese CRISPR trial, underscoring the risks of gene editing in pediatric patients and the scrutiny such programs now face. Worth reading deeper: the Endpoints feature on Definium's LSD trial details the design and what a positive read-out means for the broader psychedelic market, and why investors are watching the next phase closely. That's your rundown. Have a good one.
 
 ## Sources
 
