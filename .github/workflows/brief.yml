@@ -7,6 +7,15 @@ on:
         description: "List Gmail folders instead of building the brief"
         type: boolean
         default: false
+      fresh:
+        description: "Replay today's emails (ignore the seen list, don't consume them)"
+        type: boolean
+        default: false
+      provider:
+        description: "Override the LLM for this run only"
+        type: choice
+        options: ["", "cohere", "anthropic", "gemini"]
+        default: ""
   schedule:
     # 10:30 UTC — 6:30am EDT / 5:30am EST. GitHub's cron is UTC and does not
     # follow daylight saving, so this drifts an hour in winter.
@@ -48,9 +57,12 @@ jobs:
         run: |
           if [ "${{ inputs.list_folders }}" = "true" ]; then
             python fetch.py --list-folders
-          else
-            python run.py
+            exit 0
           fi
+          ARGS=""
+          [ "${{ inputs.fresh }}" = "true" ] && ARGS="$ARGS --fresh"
+          [ -n "${{ inputs.provider }}" ] && ARGS="$ARGS --provider ${{ inputs.provider }}"
+          python run.py $ARGS
 
       - name: Commit the brief
         run: |

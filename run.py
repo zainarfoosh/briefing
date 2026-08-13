@@ -199,11 +199,23 @@ def main() -> None:
         choices=["cohere", "anthropic", "gemini"],
         help="Override LLM_PROVIDER. Handy for running both on the same morning.",
     )
+    parser.add_argument(
+        "--fresh",
+        action="store_true",
+        help=(
+            "Re-cover already-seen emails and leave state.json alone. Use this to "
+            "compare prompt or provider changes on the same input."
+        ),
+    )
     args = parser.parse_args()
 
     state = load_state()
     cutoff = cutoff_from(state, args.hours)
-    seen = set(state.get("seen_message_ids", []))
+    seen = set() if args.fresh else set(state.get("seen_message_ids", []))
+    if args.fresh:
+        # Ignore the resume point too, or there is nothing inside the window.
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=args.hours)
+        print(f"--fresh: re-covering everything since {cutoff:%Y-%m-%d %H:%M} UTC")
 
     emails = fetch.fetch(args.folder, cutoff, seen_ids=seen, limit=args.limit)
     print(f"{len(emails)} new email(s) since {cutoff:%Y-%m-%d %H:%M} UTC")
@@ -240,8 +252,16 @@ def main() -> None:
     feed = build_feed(brief)
     FEED_PATH.write_text(json.dumps(feed, indent=2, ensure_ascii=False) + "\n")
     DIGEST_PATH.write_text(render_digest(brief, emails))
-    save_state(state, emails)
-    print(f"\nwrote {FEED_PATH.name} ({len(feed)} item(s)), {DIGEST_PATH.name}, {STATE_PATH.name}")
+
+    written = [FEED_PATH.name, DIGEST_PATH.name]
+    if args.fresh:
+        # A replay must not consume the day's mail — tomorrow's real run would
+        # then skip it and produce a wrongly quiet brief.
+        print("\n--fresh: leaving state.json untouched")
+    else:
+        save_state(state, emails)
+        written.append(STATE_PATH.name)
+    print(f"\nwrote {', '.join(written)} ({len(feed)} feed item(s))")
 
 
 if __name__ == "__main__":
