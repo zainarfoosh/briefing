@@ -22,7 +22,8 @@ from email.message import Message
 from bs4 import BeautifulSoup
 
 IMAP_HOST = "imap.gmail.com"
-DEFAULT_FOLDER = "Biopharma"
+# Case-sensitive: this is the Gmail label spelled exactly as it appears in the UI.
+DEFAULT_FOLDER = "BioPharma"
 
 # Bounds token cost. Newsletters bury the substance in the first few thousand
 # characters and spend the rest on footers.

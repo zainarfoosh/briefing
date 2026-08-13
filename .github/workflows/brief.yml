@@ -2,6 +2,11 @@ name: Daily biopharma brief
 
 on:
   workflow_dispatch:
+    inputs:
+      list_folders:
+        description: "List Gmail folders instead of building the brief"
+        type: boolean
+        default: false
   schedule:
     # 10:30 UTC — 6:30am EDT / 5:30am EST. GitHub's cron is UTC and does not
     # follow daylight saving, so this drifts an hour in winter.
@@ -37,7 +42,15 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
-        run: python run.py
+        # The list_folders input is a one-off diagnostic: it prints every IMAP
+        # folder so the Biopharma label's exact name is visible, without needing
+        # the app password on a local machine. Empty on scheduled runs.
+        run: |
+          if [ "${{ inputs.list_folders }}" = "true" ]; then
+            python fetch.py --list-folders
+          else
+            python run.py
+          fi
 
       - name: Commit the brief
         run: |
