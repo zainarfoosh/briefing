@@ -163,7 +163,10 @@ def render_digest(brief: dict, emails) -> str:
         f"**{brief['headline']}**",
         "",
         f"{brief['email_count']} newsletters · {brief['word_count']} words · "
-        f"about {seconds // 60}m{seconds % 60:02d}s aloud",
+        f"about {seconds // 60}m{seconds % 60:02d}s aloud"
+        # Stamp the writer, so a later comparison of two briefs can tell which
+        # model produced which without digging through workflow logs.
+        + (f" · {brief['usage']['model']}" if brief.get("usage", {}).get("model") else ""),
         "",
     ]
 

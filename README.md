@@ -131,43 +131,60 @@ moving is explain-versus-assume, since the right level shifts as the fluency bui
 The provider is a switch, not a rewrite — the prompt and schema are shared, so only the
 writer changes.
 
-| | Default | | |
+| | **Default** | | |
 | --- | --- | --- | --- |
-| Provider | `cohere` | `anthropic` | `gemini` |
-| Model | `command-a-plus-05-2026` | `claude-sonnet-5` | `gemini-2.5-flash` |
-| Cost | $0 (trial key) | ~$5–8/month | $0 |
-| Key | `COHERE_API_KEY` | `ANTHROPIC_API_KEY` | `GEMINI_API_KEY` |
-| Get one | [dashboard.cohere.com](https://dashboard.cohere.com/api-keys) | [console.anthropic.com](https://console.anthropic.com) | [aistudio.google.com](https://aistudio.google.com/apikey) |
+| Provider | **`anthropic`** | `cohere` | `gemini` |
+| Model | `claude-sonnet-5` | `command-a-plus-05-2026` | `gemini-2.5-flash` |
+| Cost | ~$5–8/month | $0 (trial key) | $0 |
+| Key | `ANTHROPIC_API_KEY` | `COHERE_API_KEY` | `GEMINI_API_KEY` |
+| Get one | [console.anthropic.com](https://console.anthropic.com) | [dashboard.cohere.com](https://dashboard.cohere.com/api-keys) | [aistudio.google.com](https://aistudio.google.com/apikey) |
 
 Switch by setting the `LLM_PROVIDER` Actions **variable**; only that provider's key needs
 to exist. `COHERE_MODEL`, `GEMINI_MODEL`, and the `ANTHROPIC_MODEL` constant are one-line
-overrides in either direction.
+overrides in either direction. The manual-run dialog also has a `provider` dropdown that
+overrides for a single run without touching any variable.
 
-**Rate limits are not the deciding factor.** This job makes one request per day. A Cohere
-trial key allows 1,000 calls/month and 20 requests/minute on chat models — roughly thirty
-times the headroom this needs. Two Cohere-specific notes: trial keys are documented as not
-for production or commercial use (a personal morning brief is neither, but it's their
-term, not mine), and if a trial key rejects `command-a-plus-05-2026`, fall back to
-`command-a-03-2025` — which has a larger 256k context but caps output at 8k, right on top
-of `MAX_TOKENS`.
+### Why the default is the paid one
 
-**What actually differs is quality on the part that matters most.** Nearly all the work
-here is editorial judgment — deciding which four of twenty stories earn airtime, and
-writing a real "so what" for each. That's exactly where model strength shows, and it's
-insidious when it's missing: a weaker ranking still produces a fluent, confident brief,
-just one that quietly spends your morning on the wrong stories. You get no signal that it
-happened.
+Decided by a head-to-head on the same five newsletters, same prompt, same day:
 
-So don't take my word on it — run them on the same morning and read side by side:
+| | Anthropic | Cohere |
+| --- | --- | --- |
+| Words | 630 | 224 |
+| Paragraphs | 9 | 1 |
+| Hedges per 100 words | 0.0 | 1.3 |
+| Stories covered | 5 of 6 | 4 of 6 |
+
+Length was the least of it. The Cohere run was a single unbroken block — 90 seconds of
+unpunctuated recitation on an Echo — and read as a list of events each followed by a
+hedge. The Anthropic run opened by ranking the day ("two separate safety stories that
+matter more than any deal on the sheet"), then reached past each event to the sector: a
+CRISPR death as something that "can cool enrollment and financing across the whole
+editing space," and a Prader-Willi warning that mattered because it came from an
+independent expert group rather than the company or the FDA.
+
+Earlier Cohere runs also dropped that CRISPR death entirely — twice — while spending 21%
+of the brief recommending further reading on a Series B. Prompt rules fixed that specific
+omission. What they could not fix is the ranking judgment underneath it, which is exactly
+the part you cannot audit: a weak ranking still produces a fluent, confident brief, just
+one that quietly spends your morning on the wrong stories.
+
+Rate limits were never the constraint — this job makes one request per day, well inside
+every free tier. Two Cohere notes if you switch back: trial keys are documented as not for
+production or commercial use, and if a trial key rejects `command-a-plus-05-2026`, use
+`command-a-03-2025` — larger 256k context, but it caps output at 8k, right on top of
+`MAX_TOKENS`.
+
+Re-run the comparison yourself any time; `--dry-run` writes nothing:
 
 ```bash
-python run.py --provider cohere    --dry-run
-python run.py --provider anthropic --dry-run
+python run.py --fresh --provider anthropic --dry-run
+python run.py --fresh --provider cohere    --dry-run
 ```
 
-`--dry-run` writes nothing, so compare as often as you like.
+`digest.md` stamps which model wrote each brief, so past runs stay traceable.
 
-One more consideration if you're weighing the free tiers: Google's free tier uses
-submitted data to improve their products (the paid tier does not). Check Cohere's current
-terms for the equivalent. The input is newsletters you didn't write, so the exposure is
-mild — but the brief does reflect what you read.
+One consideration if you go back to a free tier: Google's free tier uses submitted data to
+improve their products (the paid tier does not). Check Cohere's current terms for the
+equivalent. The input is newsletters you didn't write, so the exposure is mild — but the
+brief does reflect what you read.

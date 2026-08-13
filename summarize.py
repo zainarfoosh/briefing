@@ -16,10 +16,16 @@ import os
 import re
 import sys
 
-# Which LLM writes the brief: "cohere", "anthropic", or "gemini". Override with
+# Which LLM writes the brief: "anthropic", "cohere", or "gemini". Override with
 # LLM_PROVIDER or run.py --provider. The prompt and schema below are shared by all
 # three, so the only thing that changes is who writes it.
-DEFAULT_PROVIDER = "cohere"
+#
+# Anthropic is the default on evidence, not preference: run head-to-head on the
+# same five newsletters, it produced 630 words across 9 paragraphs covering 5 of 6
+# stories, against 224 words in a single unbroken block covering 4 of 6. The gap
+# was in ranking — knowing the safety stories outranked the financings — which is
+# the one thing the prompt can't reliably supply.
+DEFAULT_PROVIDER = "anthropic"
 
 ANTHROPIC_MODEL = "claude-sonnet-5"
 GEMINI_MODEL = "gemini-2.5-flash"  # the capable end of Google's free tier
