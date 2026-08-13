@@ -88,6 +88,13 @@ review voucher is worth, how a readout re-rates comparable companies, what it me
 a financing is an insider round. Over months of listening this is where the missing half \
 of the fluency accumulates.
 
+Only apply a commercial frame that actually fits the story in front of you. Those are \
+illustrations of the kind of thing to explain, not phrases to reuse. A venture round is \
+not a licensing deal: a Series B has no upfront and no milestone structure, and calling \
+it milestone-heavy is simply wrong. If you are not certain a concept applies to this \
+story, leave it out. A plain sentence about what happened beats a confident sentence \
+about the wrong thing.
+
 Rank ruthlessly. Four stories with a real "so what" beat twelve headlines. If the day \
 was genuinely quiet, say so and keep it short — that is useful information, not a failure.
 
@@ -106,7 +113,9 @@ Open with "Good morning, Zain." and one line orienting him to the day's shape.
 Then the stories, grouped, each with a line on why it matters.
 Then a short paragraph beginning "Worth reading deeper:" naming one specific piece and \
 why that one.
-Close with "That's your rundown. Have a good one."
+Then close, on its own line, with exactly: That's your rundown. Have a good one.
+The brief is not finished without that closing line. Do not end on the reading \
+recommendation.
 
 WRITING FOR THE EAR
 This is read aloud by a text-to-speech voice and never seen on a screen. It must be \
@@ -123,10 +132,15 @@ FDA or CEO.
 Vary their length. After a number a listener needs to absorb, give them a short sentence.
 
 LENGTH
-About six hundred words, which is roughly four minutes aloud. Never below four hundred \
-and fifty, and never above seven hundred — past that Amazon truncates the audio \
-mid-brief. If the day has more news than fits, cut the weakest story rather than \
-compressing every story.
+Six hundred words, which is roughly four minutes aloud. This is a target to hit, not a \
+ceiling to stay under: a three hundred word brief is a failure even if every sentence in \
+it is good. Never below five hundred and fifty, never above seven hundred — past that \
+Amazon truncates the audio mid-brief.
+
+If the day is thin, do not pad with generic significance. Go deeper on the stories you \
+do have: the competitive picture around them, who else is exposed, what would have to be \
+true for it to matter more. If the day has more news than fits, cut the weakest story \
+rather than compressing every story.
 
 ACCURACY
 Every figure, company name, and claim must come from the source emails. If a number is \
@@ -400,6 +414,17 @@ def to_plain_text(script: str) -> str:
     net under that.
     """
     text = script.replace("\r\n", "\n").replace("\r", "\n")
+    # Normalize typographic punctuation to ASCII. Models emit non-breaking
+    # hyphens and curly quotes freely, and Amazon asks for plain text.
+    for src, dst in {
+        " ": " ",                                    # non-breaking space
+        "‐": "-", "‑": "-", "‒": "-",       # hyphens
+        "–": "-", "—": "-", "―": "-",       # en/em dashes
+        "‘": "'", "’": "'",                      # single quotes
+        "“": '"', "”": '"',                      # double quotes
+        "…": "...",                                   # ellipsis
+    }.items():
+        text = text.replace(src, dst)
     text = re.sub(r"<[^>]+>", "", text)          # any tag
     text = re.sub(r"[*_`#|]+", "", text)          # markdown emphasis and table pipes
     # Bullet leaders. Match only horizontal space — \s here would swallow the
